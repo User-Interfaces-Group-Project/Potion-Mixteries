@@ -2789,49 +2789,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Dear Cousin,
-
-
-    Thank you once again for tending the shop in my absence.
-    Potion Mixteries may not be a booming business, but even a day or two away is
-    bound to put me behind in orders.
+  m_text: 'Dear Potion Maker,
 
     
 
-    To help you get started, I recommend
-    making yourself an intelligence potion to sharpen your mind. You will find the
-    directions in the recipe book on the shelf. Consider it practice for your work.
+    My name is Lily and I am ten years old.
+    I am writing to you because there are many children in the village who are mean
+    to me. They pick on me and throw things at me. I want to teach them a lesson.
+    If they think I am a witch, they will not be mean to me! Please help me get witch
+    powers.
 
     
 
-    You
-    should have all you need for this and other potions in the cabinets. However,
-    you may not be able to use all of the ingredients until you gain a little more
-    experience.
+    Sincerely,
 
-    
-
-    Once you begin the work properly, remember that our
-    customers may not know the proper names of the mixtures they need. Read their
-    requests closely and use your good judgment to select the proper recipe.
-
-    
-
-    A
-    final note: I''m afraid there was a spill on my recipe book the other night,
-    so it may be impossible to read all of the ingredients. You''re a quick study,
-    so I have no doubt you will be able to puzzle your way through.
-
-    
-
-    Best
-    of luck to you. Please do not burn down my shop.
-
-    
-
-    Your loving cousin,
-
-    Alchamedes'
+    Lily'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

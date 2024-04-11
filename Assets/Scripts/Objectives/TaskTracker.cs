@@ -61,16 +61,30 @@ public class TaskTracker : MonoBehaviour
                     "Best of luck to you. Please do not burn down my shop.\n\nYour loving cousin,\nAlchamedes";
                 break;
             case 2:
-                questText.text = "Quest 2";
+                questText.text = "Dear Potion Maker,\n\n" +
+                    "My name is Lily and I am ten years old. I am writing to you because there are many children in the village who are mean to me. " +
+                    "They pick on me and throw things at me. I want to teach them a lesson. If they think I am a witch, " +
+                    "they will not be mean to me! Please help me get witch powers.\n\nSincerely,\nLily";
                 break;
             case 3:
-                questText.text = "Quest 3";
+                questText.text = "Good Potion Maker,\n\n" +
+                    "This is a terribly embarrassing letter to write, but you are my last hope in this situation. My husband and I have " +
+                    "been married forty years, and it has been at least ten since I have felt that spark every person in love talks about. " +
+                    "I understand you have a mixture which may help me feel like a young girl in love again. Please send it as soon as you can.\n\n" +
+                    "With thanks,\nMarian";
                 break;
             case 4:
-                questText.text = "Quest 4";
+                questText.text = "To: The Potion Maker\n\n" +
+                    "I am an investigator charged with solving the murder of a young man in the south. It has been weeks since I began the assignment, " +
+                    "and I am no closer to finding the killer. There must be something I cannot see. Do you have any elixirs which might be useful in clarifying my vision?\n\n" +
+                    "From: Maxwell";
                 break;
             case 5:
-                questText.text = "Quest 5";
+                questText.text = "Good morning Potion Maker,\n\n" +
+                    "While it is true my son is the brightest light in my life, he is also the most exhausting part of it. Many warned me it would be difficult to " +
+                    "have a young boy at my age, but I suppose I assumed I would gain a sort of fatherly vigor. I did not realize it would be the vigor of Father Time. " +
+                    "I have been told you know a way to help a man in my position, and I hope it is not too good to be true.\n\n" +
+                    "Thank you in advance,\nFather Tired";
                 break;
             default:
                 questText.text = "Something broke";
