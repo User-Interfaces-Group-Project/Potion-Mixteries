@@ -8,8 +8,11 @@ public class TaskTracker : MonoBehaviour
 {
     /* Used to track the player's progress through the assigned tasks. */
 
+    [SerializeField] GameObject alertPanel;
     [SerializeField] GameObject questPanel;
+    [SerializeField] TextMeshProUGUI alertText;
     [SerializeField] TextMeshProUGUI questText;
+    [SerializeField] TextMeshProUGUI summaryHeader;
     [SerializeField] TextMeshProUGUI summaryText;
 
     int currQuest = 1;
@@ -17,27 +20,7 @@ public class TaskTracker : MonoBehaviour
     // Check player's progress when the game starts.
     private void Start()
     {
-        switch (currQuest)
-        {
-            case 1:
-                summaryText.text = "Quest 1";
-                break;
-            case 2:
-                summaryText.text = "Quest 2";
-                break;
-            case 3:
-                summaryText.text = "Quest 3";
-                break;
-            case 4:
-                summaryText.text = "Quest 4";
-                break;
-            case 5:
-                summaryText.text = "Quest 5";
-                break;
-            default:
-                summaryText.text = "Something broke";
-                break;
-        }
+        SwitchQuest();
     }
 
     // Open the quest details panel.
@@ -98,6 +81,19 @@ public class TaskTracker : MonoBehaviour
         questPanel.SetActive(false);
     }
 
+    // Open the alert notification
+    public void OpenAlert(string alertMessage)
+    {
+        alertPanel.SetActive(true);
+        alertText.text = alertMessage;
+    }
+
+    // Close the alert notification
+    public void CloseAlert()
+    {
+        alertPanel.SetActive(false);
+    }
+
     // Check the submitted potion and update accordingly
     /* Recipes are as follows:
      * Mind Sharpening: Ginseng, Morning Dew, Clear Quartz
@@ -112,10 +108,43 @@ public class TaskTracker : MonoBehaviour
      * Still & Calm: Nightshade, Goldfish Scale, Jellyfish Venom*/
     public void CheckSubmission()
     {
-        // If submission matches recipe, congratulate player, increment currQuest
-
+        // If submission matches recipe, congratulate player, increment currQuest, SwitchQuest
+        // OpenAlert("Well done! The customer has paid you for your hard work.");
 
         // Else, advise player the potion is incorrectly mixed
+        // OpenAlert("Something isn't right. Check your recipe book and try another combination.");
 
+    }
+
+    /* Update the current quest information. */
+    public void SwitchQuest()
+    {
+        switch (currQuest)
+        {
+            case 1:
+                summaryHeader.text = "Getting Started";
+                summaryText.text = "Brew an intelligence potion.\n\nSender: Cousin Alchamedes";
+                break;
+            case 2:
+                summaryHeader.text = "Make a Witch";
+                summaryText.text = "Create a potion so a little girl can frighten her bullies.\n\nSender: Lily";
+                break;
+            case 3:
+                summaryHeader.text = "Rekindle a Spark";
+                summaryText.text = "Mix a potion to help a wife find passion for her husband again.\n\nSender: Marian";
+                break;
+            case 4:
+                summaryHeader.text = "Find a Clue";
+                summaryText.text = "Prepare a mixture for a struggling investigator.\n\nSender: Maxwell";
+                break;
+            case 5:
+                summaryHeader.text = "Energize a Father";
+                summaryText.text = "Brew a potion to help an older father keep up with his young son.\n\nSender: Father Tired";
+                break;
+            default:
+                summaryHeader.text = "Oh, no.";
+                summaryText.text = "Something broke";
+                break;
+        }
     }
 }
