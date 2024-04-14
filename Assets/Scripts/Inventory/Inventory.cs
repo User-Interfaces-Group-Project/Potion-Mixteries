@@ -39,6 +39,8 @@ public class InventoryManager : MonoBehaviour
     public GameObject itemPrefab;
     public Text balanceText;
     public GameObject[] brewingSlots; // Assign these in the Unity Editor
+
+    //USE THIS TO CHECK RECEPIES WHEN YOU CLICK BREW
     private List<InventoryItem> brewingItems = new List<InventoryItem>();
 
     [SerializeField] private int balance; // This can be set in the Unity Editor
@@ -149,11 +151,25 @@ public class InventoryManager : MonoBehaviour
             Text brewItemNameText = brewItem.transform.Find("ItemNameText")?.GetComponent<Text>();
             if (brewItemNameText != null)
             {
-                brewItemNameText.text = item.ToString().Replace("_", " ");
+                brewItemNameText.text = item.ToString().Replace("_", " "); // Adjust for enum naming convention if necessary
             }
             else
             {
                 Debug.LogWarning("ItemNameText not found in the ItemBrewPrefab");
+            }
+
+            // Find and set the item sprite in the brewing prefab
+            Image brewItemImage = brewItem.transform.Find("ItemImage")?.GetComponent<Image>();
+            if (brewItemImage != null)
+            {
+                if (itemSprites.ContainsKey(item))
+                {
+                    brewItemImage.sprite = itemSprites[item];
+                }
+            }
+            else
+            {
+                Debug.LogWarning("ItemImage not found in the ItemBrewPrefab or no sprite available for the item");
             }
 
             // Update the list with the item
