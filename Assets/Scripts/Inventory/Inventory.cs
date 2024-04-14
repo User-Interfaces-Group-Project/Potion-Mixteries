@@ -38,6 +38,9 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryShelf;
     public GameObject itemPrefab;
     public Text balanceText;
+    public GameObject[] brewingSlots; // Assign these in the Unity Editor
+    private List<InventoryItem> brewingItems = new List<InventoryItem>();
+
     [SerializeField] private int balance; // This can be set in the Unity Editor
 
     /// <summary>
@@ -126,6 +129,58 @@ public class InventoryManager : MonoBehaviour
         }
         updateShelf();
     }
+    [SerializeField] private GameObject itemBrewPrefab; // Assign in Unity Editor
+
+    public void AddItemToBrewingArea(InventoryItem item)
+    {
+        Debug.Log("Attempting to add item to brewing area: " + item);
+
+        // Check for an available slot and if the item is in inventory
+        int slotIndex = brewingItems.Count;
+        if (slotIndex < brewingSlots.Length && inventory[item] > 0)
+        {
+            // Instantiate the itemBrewPrefab in the slot
+            GameObject brewItem = Instantiate(itemBrewPrefab, brewingSlots[slotIndex].transform);
+
+            // Set the proper name
+            brewItem.name = item.ToString();
+
+            // Find and set the item name text in the brewing prefab
+            Text brewItemNameText = brewItem.transform.Find("ItemNameText")?.GetComponent<Text>();
+            if (brewItemNameText != null)
+            {
+                brewItemNameText.text = item.ToString().Replace("_", " ");
+            }
+            else
+            {
+                Debug.LogWarning("ItemNameText not found in the ItemBrewPrefab");
+            }
+
+            // Update the list with the item
+            brewingItems.Add(item);
+
+            // Remove the item from inventory
+            RemoveItem(item, 1);
+
+            // Hook up the remove function
+            brewItem.GetComponent<Button>().onClick.AddListener(() => RemoveItemFromBrewingArea(item, brewItem));
+        }
+    }
+
+    public void RemoveItemFromBrewingArea(InventoryItem item, GameObject brewItem)
+    {
+        // Add the item back to inventory
+        AddItem(item, 1);
+
+        // Remove the item from the brewingItems list
+        brewingItems.Remove(item);
+
+        // Remove the prefab from the slot
+        Destroy(brewItem);
+
+        // You may want to reorder the items in the brewing slots here
+        // and update the brewingItems list to match the new order.
+    }
 
     private void updateShelf()
     {
@@ -141,6 +196,7 @@ public class InventoryManager : MonoBehaviour
         {
             // Instantiate a new item prefab as a child of the inventory shelf
             GameObject itemButton = Instantiate(itemPrefab, inventoryShelf.transform);
+            itemButton.name = entry.Key.ToString();
 
             // Assuming itemButton has two children: one for item text and another for cost text
             Text itemNameText = itemButton.transform.Find("ItemNameText").GetComponent<Text>();
@@ -165,14 +221,40 @@ public class InventoryManager : MonoBehaviour
                 backgroundImage.sprite = itemSprites[entry.Key];
             }
 
+            // Get the purchase button, which may be a separate child button to buy more of the item
             Button purchaseButton = itemButton.transform.Find("PurchaseButton").GetComponent<Button>();
             if (purchaseButton != null)
             {
                 // Hook up the onClick event to call OnPurchaseItem with the correct item
                 purchaseButton.onClick.AddListener(() => OnPurchaseItem(entry.Key));
             }
+
+            // Set button interactability based on quantity
+            Button itemButtonComponent = itemButton.GetComponent<Button>();
+            if (itemButtonComponent != null)
+            {
+                itemButtonComponent.interactable = entry.Value > 0;
+
+                // Optionally, change the button color to grey if it's disabled
+                Image buttonImage = itemButton.GetComponent<Image>();
+                if (buttonImage != null)
+                {
+                    buttonImage.color = entry.Value > 0 ? Color.white : Color.grey;
+                }
+            }
+            if (itemButtonComponent != null)
+            {
+                Debug.Log("Adding listener for " + entry.Key);
+                itemButtonComponent.onClick.AddListener(() => AddItemToBrewingArea(entry.Key));
+            }
+            // You might also want to disable the purchaseButton based on the item quantity
+            if (purchaseButton != null)
+            {
+                //purchaseButton.interactable = entry.Value > 0;
+            }
         }
     }
+
 
     public void OnPurchaseItem(InventoryItem item)
     {
@@ -202,13 +284,14 @@ public class InventoryManager : MonoBehaviour
             inventory[item] -= quantity;
             if (inventory[item] <= 0)
             {
-                inventory.Remove(item);
-                updateShelf();
+                inventory[item] = 0; // Set quantity to 0 instead of removing the item
             }
+            updateShelf();
             return true;
         }
         return false;
     }
+
 
     // For debugging: Print the inventory and display sprites in the console
     void PrintInventory()
