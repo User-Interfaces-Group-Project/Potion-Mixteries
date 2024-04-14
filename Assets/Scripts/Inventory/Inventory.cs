@@ -137,51 +137,66 @@ public class InventoryManager : MonoBehaviour
     {
         Debug.Log("Attempting to add item to brewing area: " + item);
 
-        // Check for an available slot and if the item is in inventory
-        int slotIndex = brewingItems.Count;
-        if (slotIndex < brewingSlots.Length && inventory[item] > 0)
+        // Find the first available slot
+        int slotIndex = FindFirstAvailableSlot();
+        if (slotIndex == -1)
         {
-            // Instantiate the itemBrewPrefab in the slot
-            GameObject brewItem = Instantiate(itemBrewPrefab, brewingSlots[slotIndex].transform);
+            Debug.Log("No available slots in the brewing area.");
+            return;
+        }
 
-            // Set the proper name
+        if (inventory[item] > 0)
+        {
+            GameObject brewItem = Instantiate(itemBrewPrefab, brewingSlots[slotIndex].transform);
             brewItem.name = item.ToString();
 
-            // Find and set the item name text in the brewing prefab
             Text brewItemNameText = brewItem.transform.Find("ItemNameText")?.GetComponent<Text>();
             if (brewItemNameText != null)
             {
-                brewItemNameText.text = item.ToString().Replace("_", " "); // Adjust for enum naming convention if necessary
+                brewItemNameText.text = item.ToString().Replace("_", " ");
             }
             else
             {
                 Debug.LogWarning("ItemNameText not found in the ItemBrewPrefab");
             }
 
-            // Find and set the item sprite in the brewing prefab
             Image brewItemImage = brewItem.transform.Find("ItemImage")?.GetComponent<Image>();
-            if (brewItemImage != null)
+            if (brewItemImage != null && itemSprites.ContainsKey(item))
             {
-                if (itemSprites.ContainsKey(item))
-                {
-                    brewItemImage.sprite = itemSprites[item];
-                }
+                brewItemImage.sprite = itemSprites[item];
             }
             else
             {
                 Debug.LogWarning("ItemImage not found in the ItemBrewPrefab or no sprite available for the item");
             }
 
-            // Update the list with the item
-            brewingItems.Add(item);
-
-            // Remove the item from inventory
             RemoveItem(item, 1);
 
-            // Hook up the remove function
-            brewItem.GetComponent<Button>().onClick.AddListener(() => RemoveItemFromBrewingArea(item, brewItem));
+            Button brewItemButton = brewItem.GetComponent<Button>();
+            if (brewItemButton != null)
+            {
+                brewItemButton.onClick.AddListener(() => RemoveItemFromBrewingArea(item, brewItem));
+            }
+            else
+            {
+                Debug.LogWarning("No Button component found on the brewItem.");
+            }
         }
     }
+
+    private int FindFirstAvailableSlot()
+    {
+        for (int i = 0; i < brewingSlots.Length; ++i)
+        {
+            // Check if the slot is empty by checking if it has any children
+            if (brewingSlots[i].transform.childCount == 0)
+            {
+                return i;
+            }
+        }
+        return -1; // All slots are filled
+    }
+
 
     public void RemoveItemFromBrewingArea(InventoryItem item, GameObject brewItem)
     {
