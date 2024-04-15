@@ -12,8 +12,12 @@ public class TaskTracker : MonoBehaviour
     [SerializeField] GameObject questPanel;
     [SerializeField] TextMeshProUGUI alertText;
     [SerializeField] TextMeshProUGUI questText;
-    [SerializeField] TextMeshProUGUI summaryHeader;
     [SerializeField] TextMeshProUGUI summaryText;
+    [SerializeField] GameObject check1;
+    [SerializeField] GameObject check2;
+    [SerializeField] GameObject check3;
+    [SerializeField] GameObject check4;
+    [SerializeField] GameObject check5;
 
     int currQuest = 1;
 
@@ -122,28 +126,22 @@ public class TaskTracker : MonoBehaviour
         switch (currQuest)
         {
             case 1:
-                summaryHeader.text = "Getting Started";
-                summaryText.text = "Brew an intelligence potion.\n\nSender: Cousin Alchamedes";
+                summaryText.text = "Getting Started";
                 break;
             case 2:
-                summaryHeader.text = "Make a Witch";
-                summaryText.text = "Create a potion so a little girl can frighten her bullies.\n\nSender: Lily";
+                summaryText.text += "\nMake a Witch";
                 break;
             case 3:
-                summaryHeader.text = "Rekindle a Spark";
-                summaryText.text = "Mix a potion to help a wife find passion for her husband again.\n\nSender: Marian";
+                summaryText.text += "\nRekindle a Spark";
                 break;
             case 4:
-                summaryHeader.text = "Find a Clue";
-                summaryText.text = "Prepare a mixture for a struggling investigator.\n\nSender: Maxwell";
+                summaryText.text += "\nFind a Clue";
                 break;
             case 5:
-                summaryHeader.text = "Energize a Father";
-                summaryText.text = "Brew a potion to help an older father keep up with his young son.\n\nSender: Father Tired";
+                summaryText.text += "\nEnergize a Father";
                 break;
             default:
-                summaryHeader.text = "Oh, no.";
-                summaryText.text = "Something broke";
+                summaryText.text = "Oh, no.";
                 break;
         }
     }
