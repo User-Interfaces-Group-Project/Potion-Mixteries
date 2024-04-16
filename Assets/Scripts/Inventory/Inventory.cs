@@ -86,7 +86,7 @@ public class InventoryManager : MonoBehaviour
     }
     void UpdateBal()
     {
-        balanceText.text = "Balance: $" + balance.ToString();
+        balanceText.text = "Purse Balance: $" + balance.ToString();
     }
         void InitializeItemSprites()
     {
@@ -237,7 +237,8 @@ public class InventoryManager : MonoBehaviour
             // Set the name and quantity text on the item button
             if (itemNameText != null)
             {
-                itemNameText.text = $"{entry.Key}\n({entry.Value})"; // e.g., "MorningDew (1)"
+                // NOTE: Moved quantity printout to commented-out section due to issues with screen reader plugin.
+                itemNameText.text = $"{entry.Key}"; //\n({entry.Value}) e.g., "MorningDew (1)"
             }
 
             // Set the cost text on the item button

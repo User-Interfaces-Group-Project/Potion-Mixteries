@@ -168,7 +168,7 @@ public class TaskTracker : MonoBehaviour
         switch (currQuest)
         {
             case 1:
-                summaryText.text = "Getting Started";
+                summaryText.text = "To-Do List:\nGetting Started";
                 break;
             case 2:
                 check1.SetActive(true);
