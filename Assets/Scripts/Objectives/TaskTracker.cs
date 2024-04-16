@@ -19,6 +19,8 @@ public class TaskTracker : MonoBehaviour
     [SerializeField] GameObject check4;
     [SerializeField] GameObject check5;
 
+    [SerializeField] InventoryManager inventory;
+
     int currQuest = 1;
 
     // Check player's progress when the game starts.
@@ -112,11 +114,51 @@ public class TaskTracker : MonoBehaviour
      * Still & Calm: Nightshade, Goldfish Scale, Jellyfish Venom*/
     public void CheckSubmission()
     {
-        // If submission matches recipe, congratulate player, increment currQuest, SwitchQuest
-        // OpenAlert("Well done! The customer has paid you for your hard work.");
+        List<string> requiredItems = new List<string>();
 
-        // Else, advise player the potion is incorrectly mixed
-        // OpenAlert("Something isn't right. Check your recipe book and try another combination.");
+        switch (currQuest)
+        {
+            case 1:
+                requiredItems = new List<string> { "MorningDew", "BeechBark", "ClearQuartz" };
+                break;
+            case 2:
+                requiredItems = new List<string> { "CampfireAsh", "BeechBark", "Nightshade" };
+                break;
+            case 3:
+                requiredItems = new List<string> { "RoseBuds", "PuppysEyelash", "LadybugWing" };
+                break;
+            case 4:
+                requiredItems = new List<string> { "ClearQuartz", "BlackCatFur", "ParchmentInk" };
+                break;
+            case 5:
+                requiredItems = new List<string> { "PuppysEyelash", "Beeswax", "Ginseng" };
+                break;
+            default:
+                Debug.Log("Recipe check problem, oh no!");
+                break;
+        }
+
+        if (inventory.CompareBrewingItems(requiredItems))
+        {
+            Debug.Log("Recipe match found!");
+            // Congratulate player, increment currQuest, SwitchQuest
+            currQuest += 1;
+            SwitchQuest();
+            if (currQuest < 6)
+            {
+                inventory.AddToBalance(100);
+                OpenAlert("Well done! The customer will pay you for your hard work. A new order has come in.");
+            } else
+            {   
+                OpenAlert("Congratulations! You have completed all the orders!");
+            }
+        }
+        else
+        {
+            Debug.Log("No recipe match.");
+            // Advise player the potion is incorrectly mixed
+            OpenAlert("Something isn't right. Check your recipe book and try another combination.");
+        }
 
     }
 
@@ -129,16 +171,23 @@ public class TaskTracker : MonoBehaviour
                 summaryText.text = "Getting Started";
                 break;
             case 2:
+                check1.SetActive(true);
                 summaryText.text += "\nMake a Witch";
                 break;
             case 3:
+                check2.SetActive(true);
                 summaryText.text += "\nRekindle a Spark";
                 break;
             case 4:
+                check3.SetActive(true);
                 summaryText.text += "\nFind a Clue";
                 break;
             case 5:
+                check4.SetActive(true);
                 summaryText.text += "\nEnergize a Father";
+                break;
+            case 6:
+                check5.SetActive(true);
                 break;
             default:
                 summaryText.text = "Oh, no.";

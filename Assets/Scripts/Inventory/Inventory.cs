@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -169,7 +170,7 @@ public class InventoryManager : MonoBehaviour
             {
                 Debug.LogWarning("ItemImage not found in the ItemBrewPrefab or no sprite available for the item");
             }
-
+            brewingItems.Add(item);
             RemoveItem(item, 1);
 
             Button brewItemButton = brewItem.GetComponent<Button>();
@@ -345,5 +346,30 @@ public class InventoryManager : MonoBehaviour
             return itemSprites[item];
         }
         return null; // Return null or a default sprite if not found
+    }
+
+    // Check items in brewing area for a match to a recipe.
+    public bool CompareBrewingItems(List<string> recipe)
+    {
+        if (brewingItems.Count != recipe.Count)
+        {
+            return false;
+        }
+
+        // Convert brewingItems enum values to string and sort the list
+        List<string> brewingItemNames = brewingItems.Select(item => item.ToString()).ToList();
+        brewingItemNames.Sort();
+
+        // Sort the provided list of strings
+        recipe.Sort();
+
+        // Compare the sorted lists
+        return brewingItemNames.SequenceEqual(recipe);
+    }
+
+    // Add money to balance.
+    public void AddToBalance(int amount)
+    {
+        balance += amount;
     }
 }
