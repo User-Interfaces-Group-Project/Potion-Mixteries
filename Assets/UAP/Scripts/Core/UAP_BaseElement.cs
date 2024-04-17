@@ -316,10 +316,11 @@ public abstract class UAP_BaseElement : MonoBehaviour
 			}
 #endif
 		}
-
-		if (!found)
-			m_Text = gameObject.name;
-
+		if (this != null && gameObject != null)
+		{
+			if (!found)
+				m_Text = gameObject.name;
+		}
 		return found;
 	}
 
@@ -727,12 +728,17 @@ public abstract class UAP_BaseElement : MonoBehaviour
 
 	protected Component GetTextMeshProLabelInChildren()
 	{
-		foreach (Transform child in transform)
+		if (this != null && gameObject != null)
 		{
-			var tmpLabel = child.gameObject.GetComponent("TMP_Text");
-			if (tmpLabel != null)
+			foreach (Transform child in transform)
 			{
-				return tmpLabel;
+
+				var tmpLabel = child.gameObject.GetComponent("TMP_Text");
+				if (tmpLabel != null)
+				{
+					return tmpLabel;
+				}
+
 			}
 		}
 		return null;

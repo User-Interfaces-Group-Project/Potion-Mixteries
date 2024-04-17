@@ -163,24 +163,27 @@ public class AccessibleButton : UAP_BaseElement
 		//////////////////////////////////////////////////////////////////////////
 		{
 			// Try to find a label in the button's children
-			Transform textLabel = gameObject.transform.Find("Text");
-			if (textLabel != null)
+			if (this != null && gameObject != null)
 			{
-				Text label = textLabel.gameObject.GetComponent<Text>();
-				if (label != null)
+				Transform textLabel = gameObject.transform.Find("Text");
+				if (textLabel != null)
 				{
-					m_Text = label.text;
-					found = true;
+					Text label = textLabel.gameObject.GetComponent<Text>();
+					if (label != null)
+					{
+						m_Text = label.text;
+						found = true;
+					}
 				}
-			}
 
-			if (!found)
-			{
-				Text label = gameObject.GetComponentInChildren<Text>();
-				if (label != null)
+				if (!found)
 				{
-					m_Text = label.text;
-					found = true;
+					Text label = gameObject.GetComponentInChildren<Text>();
+					if (label != null)
+					{
+						m_Text = label.text;
+						found = true;
+					}
 				}
 			}
 		}
@@ -223,11 +226,12 @@ public class AccessibleButton : UAP_BaseElement
 			}
 		}
 #endif
-
-		// if nothing, use the GameObject name
-		if (!found)
-			m_Text = gameObject.name;
-
+		if (this != null && gameObject != null)
+		{
+			// if nothing, use the GameObject name
+			if (!found)
+				m_Text = gameObject.name;
+		}
 		return found;
 	}
 
