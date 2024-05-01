@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuSettings : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
     // Quit Game
-    public void Quit()
+    public void QuitGame()
     {
         Application.Quit();
     }
