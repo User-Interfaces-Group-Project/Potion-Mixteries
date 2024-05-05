@@ -119,7 +119,7 @@ public class TaskTracker : MonoBehaviour
         switch (currQuest)
         {
             case 1:
-                requiredItems = new List<string> { "MorningDew", "BeechBark", "ClearQuartz" };
+                requiredItems = new List<string> { "MorningDew", "Ginseng", "ClearQuartz" };
                 break;
             case 2:
                 requiredItems = new List<string> { "CampfireAsh", "BeechBark", "Nightshade" };
